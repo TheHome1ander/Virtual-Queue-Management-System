@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Token</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style> {% include 'style.css' %} </style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh; background: #fff;">
+
+    <div class="card fade-in" style="width: 100%; max-width: 350px; text-align: center; border:none; box-shadow:none;">
+        <p style="text-transform:uppercase; font-size:12px; font-weight:700; color:#86868b; letter-spacing: 1px;">Now waiting at</p>
+        <h1 style="font-size: 32px; margin-top:5px;">{{ shop.shop_name }}</h1>
+        <p style="color:var(--text-secondary);">{{ shop.location }}</p>
+
+        <div style="margin: 40px 0; padding: 40px 0; background: #f5f5f7; border-radius: 50%; width: 200px; height: 200px; margin-left:auto; margin-right:auto; display:flex; flex-direction:column; justify-content:center;">
+            <span style="font-size: 14px; color:#86868b;">Your Token</span>
+            <span style="font-size: 80px; font-weight: 700; line-height: 1; color: var(--text-main);">{{ token }}</span>
+        </div>
+
+        <div class="card" style="background: rgba(0,0,0,0.03); border:none; box-shadow:none;">
+            <p style="margin:0; font-size: 16px;">People ahead of you</p>
+            <p style="margin:5px 0 0 0; font-size: 24px; font-weight: 600; color: var(--accent);">{{ ahead }}</p>
+        </div>
+
+        <p style="font-size: 12px; color: #ccc; margin-top: 30px;">Do not close this page.</p>
+    </div>
+
+</body>
+</html>

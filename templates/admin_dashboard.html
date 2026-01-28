@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+    <style> {% include 'style.css' %} </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 40px;">
+            <h1>Admin Control</h1>
+            <a href="/logout" style="color: var(--accent); text-decoration: none;">Log out</a>
+        </div>
+
+        <h3>Pending Approvals ({{ pending|length }})</h3>
+        {% if not pending %} <p style="color:#86868b;">No pending requests.</p> {% endif %}
+        
+        {% for shop in pending %}
+        <div class="card">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h2 style="margin:0;">{{ shop.shop_name }}</h2>
+                    <p style="margin:5px 0;"><strong>Owner:</strong> {{ shop.owner_real_name }}</p>
+                </div>
+                <div style="text-align:right;">
+                    <form action="/approve/{{ shop.id }}" method="post">
+                        <button type="submit" style="width:auto;">Approve Request</button>
+                    </form>
+                </div>
+            </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; font-size: 14px; color:#555;">
+                <div>📍 {{ shop.location }}</div>
+                <div>📞 {{ shop.contact_details }}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <h3 style="margin-top: 50px;">Active Shops</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+            {% for shop in active %}
+            <div class="card" style="padding: 20px;">
+                <h4 style="margin:0;">{{ shop.shop_name }}</h4>
+                <p style="font-size:13px; color:#86868b; margin-top:5px;">{{ shop.location }}</p>
+                <p style="font-size:13px;">Owner: {{ shop.owner_real_name }}</p>
+                <p style="font-size:13px;">Phone: {{ shop.contact_details }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

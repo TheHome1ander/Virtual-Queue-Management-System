@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style> {% include 'style.css' %} </style>
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+            
+            // Toggle tab style
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('btn-'+tabName).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="container fade-in">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 40px;">
+            <h1>My Shops</h1>
+            <a href="/logout" style="color: var(--accent); text-decoration: none;">Log out</a>
+        </div>
+
+        <div class="tabs">
+            <div id="btn-overview" class="tab active" onclick="switchTab('overview')">Overview</div>
+            <div id="btn-pending" class="tab" onclick="switchTab('pending')">Pending Approvals</div>
+            <div id="btn-add" class="tab" onclick="switchTab('add')">Add Shop</div>
+        </div>
+
+        <div id="overview" class="view-section">
+            {% for item in shops %}
+                {% if item.status == "Active" %}
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div>
+                            <h2 style="margin:0;">{{ item.obj.shop_name }}</h2>
+                            <p style="color:var(--text-secondary); margin-top:5px;">{{ item.obj.location }}</p>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                    <div style="display:flex; gap: 40px;">
+                        <div>
+                            <div style="font-size: 32px; font-weight:700;">{{ item.total }}</div>
+                            <div style="font-size: 13px; color:var(--text-secondary); text-transform:uppercase;">Customers Today</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 32px; font-weight:700; color:var(--accent);">{{ item.waiting }}</div>
+                            <div style="font-size: 13px; color:var(--text-secondary); text-transform:uppercase;">Waiting Now</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p style="font-size:14px; color:#86868b;">Your Customer Link:</p>
+                        <a href="/q/{{ item.obj.id }}" target="_blank" style="color:var(--accent);">/q/{{ item.obj.id }}</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="pending" class="view-section" style="display:none;">
+            {% for item in shops %}
+                {% if item.status == "Pending" %}
+                <div class="card" style="opacity: 0.7;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <h3>{{ item.obj.shop_name }}</h3>
+                        <span class="status-badge status-pending">Waiting for Approval</span>
+                    </div>
+                    <p>Location: {{ item.obj.location }}</p>
+                    <p style="font-size:14px; margin-top:10px;">Submitted on: {{ item.obj.registration_date.strftime('%Y-%m-%d') }}</p>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="add" class="view-section" style="display:none;">
+            <div class="card">
+                <h2>Register Another Location</h2>
+                <form action="/add-shop" method="post">
+                    <input type="text" name="shop_name" placeholder="Shop Name" required>
+                    <input type="text" name="owner_real_name" placeholder="Owner Name" value="{{ user.username }}" required>
+                    <input type="text" name="contact" placeholder="Contact Number" required>
+                    <input type="text" name="location" placeholder="Location" required>
+                    <button type="submit">Submit Request</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

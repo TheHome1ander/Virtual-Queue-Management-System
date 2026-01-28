@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+    <a href="/dashboard">Back to Dashboard</a>
+    <h1>{{ shop.name }} Control Panel</h1>
+    
+    <div style="border: 2px solid #333; padding: 40px; display: inline-block; border-radius: 10px;">
+        <p>Now Serving Token Number:</p>
+        <div id="serving" style="color: green; font-size: 80px; font-weight: bold;">--</div>
+    </div>
+    
+    <br><br>
+    
+    <button onclick="callNext()" style="padding: 20px 40px; font-size: 24px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;">CALL NEXT CUSTOMER</button>
+    
+    <br><br>
+    <hr>
+    <h3>QR Code Link</h3>
+    <p>Share this link with customers:</p>
+    <a href="/join-page/{{ shop.id }}" target="_blank" style="font-size: 20px;">/join-page/{{ shop.id }}</a>
+
+    <script>
+        async function callNext() {
+            let res = await fetch(`/api/next/{{ shop.id }}`, {method: "POST"});
+            let data = await res.json();
+            if(data.served) {
+                document.getElementById("serving").innerText = data.served;
+            } else {
+                alert("Queue is empty!");
+            }
+        }
+    </script>
+</body>
+</html>
