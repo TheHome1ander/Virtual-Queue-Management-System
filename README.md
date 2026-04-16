@@ -6,3 +6,8 @@ a time window to show up. If they fail to do so, they get pushed back to the end
 
 
 This project was made with the hope of minimizing a real-world problem - long wait times in queues.
+
+Screenshots of the project:
+<img width="1461" height="834" alt="adminLogin" src="https://github.com/user-attachments/assets/919e4603-a48f-48c3-90bd-8fe76e9c76f4" />
+
+
